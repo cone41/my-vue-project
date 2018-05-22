@@ -1,0 +1,11 @@
+.clear-fix {
+  display: inline-block;
+}
+.clear-fix:after {
+  display: block;
+  height: 0;
+  line-height: 0;
+  content: '-';
+  clear: both;
+  visibility: hidden;
+}

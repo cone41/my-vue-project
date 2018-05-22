@@ -1,0 +1,44 @@
+.mixify(@color) {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    border-top: 1px solid @color;
+    content: '';
+  }
+}
+.bg-image(@url) {
+  background-image: url(@url);
+}
+
+.clear-fix {
+  display: inline-block;
+  &:after {
+    display: block;
+    height: 0;
+    line-height: 0;
+    content: '-';
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+//.decrease {
+//  background-image: url("../../components/header/decrease_1@2x.png");
+//}
+//.discount {
+//  background-image: url("../../components/header/discount_1@2x.png");
+//}
+//.guarantee {
+//  background-image: url("../../components/header/guarantee_1@2x.png");
+//}
+//.invoice {
+//  background-image: url("../../components/header/invoice_1@2x.png");
+//}
+//.special {
+//  background-image: url("../../components/header/special_1@2x.png");
+//}
