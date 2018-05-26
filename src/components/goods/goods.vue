@@ -29,117 +29,129 @@
                                 <span class="cur-price">￥{{food.price}}</span>
                                 <span class="old-price" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                             </div>
-                            <div class="goods-handle">
-                                <i class="icon-remove_circle_outline" v-if="food.goodsCount>0"
-                                   @click="removeGoods(food)"></i>
-                                <span v-if="food.goodsCount>0">{{food.goodsCount}}</span>
-                                <i class="icon-add_circle" @click="addGoods(food)"></i>
+                            <div class="cart-control-wrapper">
+                                <cartControl :food="food"></cartControl>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <shopcart :seller="seller"></shopcart>
+        <shopCart :seller="seller" :selected-foods="selectedFoods"></shopCart>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
-	import betterScroll from 'better-scroll'
-	import shopcart from 'components/shopcart/shopcart.vue'
-	const ERR_NUM = 0;
-	export default {
-		props: ['seller'],
-		data () {
-			return {
-				goods: [],
-				scrollHeight: [],
-				scrollY: 0
-			}
-		},
+    import betterScroll from 'better-scroll'
+    import shopCart from 'components/shopcart/shopcart.vue'
+    import cartControl from 'components/cartControl/cartControl.vue'
+    import eventBus from 'common/js/eventBus.vue'
 
-		components: {
-			'shopcart': shopcart
-		},
+    const ERR_NUM = 0;
+    export default {
+        props: ['seller'],
+        data () {
+            return {
+                goods       : [],
+                scrollHeight: [],
+                scrollY     : 0
+            }
+        },
 
-		created () {
-			this.imageMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-			this.$http.get('/api/goods').then((data) => {
-				data = data.body;
-				if (data.errno == ERR_NUM) {
-					this.goods = data.data;
-					for (let i = 0; i < this.goods.length; i++) {
-						let item = this.goods[i].foods;
-						for (let j = 0; j < item.length; j++) {
-							this.$set(item[j], 'goodsCount', 0);
-						}
-					}
-					this.$nextTick(() => {
-						this.initScroll();
-						this.calculateHeight();
-					})
-				}
-			})
-		},
+        components: {
+            'shopCart'   : shopCart,
+            'cartControl': cartControl,
+        },
 
-		computed: {
-			currentIndex() {
-				for (let i = 0; i < this.scrollHeight.length; i++) {
-					let height1 = this.scrollHeight[i];
-					let height2 = this.scrollHeight[i + 1];
-					if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-						return i;
-					}
-				}
-				return 0;
-			}
-		},
+        created () {
+            this.imageMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+            this.$http.get('/api/goods').then((data) => {
+                data = data.body;
+                if (data.errno == ERR_NUM) {
+                    this.goods = data.data;
+                    for (let i = 0; i < this.goods.length; i ++) {
+                        let item = this.goods[i].foods;
+                        for (let j = 0; j < item.length; j ++) {
+                            this.$set(item[j], 'count', 0);
+                        }
+                    }
+                    this.$nextTick(() => {
+                        this.initScroll();
+                        this.calculateHeight();
+                    })
+                }
+            })
+        },
 
-		methods: {
-			getTo(index, event) {
-				if (!event._constructed) {
-					return;
-				}
-				let foodsList = $(this.$refs.goodsWrapper).find('.goods-item');
-				let el = foodsList[index];
-				this.goodsScroll.scrollToElement(el, 300);
-			},
+        computed: {
+            currentIndex() {
+                for (let i = 0; i < this.scrollHeight.length; i ++) {
+                    let height1 = this.scrollHeight[i];
+                    let height2 = this.scrollHeight[i + 1];
+                    if (! height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+                        return i;
+                    }
+                }
+                return 0;
+            },
+            selectedFoods(){
+                let foods = [];
+                this.goods.forEach((good) => {
+                    good.foods.forEach((food) => {
+                        if (food.count) {
+                            foods.push(food);
+                        }
+                    })
+                });
+                return foods;
+            }
+        },
 
-			initScroll() {
-				this.menuScroll = new betterScroll(this.$refs.menuWrapper, {
-					click: true
-				});
-				this.goodsScroll = new betterScroll(this.$refs.goodsWrapper, {
-					probeType: 3
-				});
-				this.goodsScroll.on('scroll', (pos) => {
-					this.scrollY = Math.abs(Math.round(pos.y));
-				})
-			},
+        mounted(){
+            eventBus.$on('test', () => {
+                this.goods.forEach((good) => {
+                    good.foods.forEach((food) => {
+                        food.count = 0;
+                    })
+                });
+            })
+        },
+        methods: {
+            getTo(index, event) {
+                if (! event._constructed) {
+                    return;
+                }
+                let foodsList = $(this.$refs.goodsWrapper).find('.goods-item');
+                let el = foodsList[index];
+                this.goodsScroll.scrollToElement(el, 300);
+            },
 
-			calculateHeight() {
-				let doms = $(this.$refs.goodsWrapper).find('.goods-item');
-				let height = 0;
-				this.scrollHeight.push(height);
-				for (let i = 0; i < doms.length; i++) {
-					height += doms[i].clientHeight;
-					this.scrollHeight.push(height);
-				}
-			},
+            initScroll() {
+                this.menuScroll = new betterScroll(this.$refs.menuWrapper, {
+                    click: true
+                });
+                this.goodsScroll = new betterScroll(this.$refs.goodsWrapper, {
+                    click    : true,
+                    probeType: 3,
 
-			removeGoods(item) {
-				alert(item.goodsCount);
-				item.goodsCount--;
+                });
+                this.goodsScroll.on('scroll', (pos) => {
+                    this.scrollY = Math.abs(Math.round(pos.y));
+                })
+            },
 
-			},
+            calculateHeight() {
+                let doms = $(this.$refs.goodsWrapper).find('.goods-item');
+                let height = 0;
+                this.scrollHeight.push(height);
+                for (let i = 0; i < doms.length; i ++) {
+                    height += doms[i].clientHeight;
+                    this.scrollHeight.push(height);
+                }
+            }
 
-			addGoods(item) {
-				alert(item.goodsCount);
-				item.goodsCount++;
-
-			}
-		}
-	}
+        }
+    }
 </script>
 <style scoped lang="less">
     @import "../../common/less/common";
@@ -155,8 +167,6 @@
             width: 160px;
             background: #f3f5f7;
             .menu {
-                /*width: 112px;*/
-                /*padding: 0 24px;*/
                 .menu-item {
                     padding: 0 24px;
                     display: table;
@@ -271,24 +281,10 @@
                                 vertical-align: top;
                             }
                         }
-                        .goods-handle {
+                        .cart-control-wrapper {
                             position: absolute;
                             right: 0;
                             bottom: 36px;
-                            i {
-                                font-size: 48px;
-                                color: rgb(0, 160, 200);
-                                line-height: 48px;
-                            }
-                            span {
-                                display: inline-block;
-                                width: 48px;
-                                line-height: 48px;
-                                outline: none;
-                                font-size: 20px;
-                                vertical-align: top;
-                                text-align: center;
-                            }
                         }
 
                     }

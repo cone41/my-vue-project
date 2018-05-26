@@ -63,8 +63,6 @@
                 </div>
             </div>
         </transition>
-
-        <!--<div class="dimmer-background"></div>-->
     </div>
 </template>
 
