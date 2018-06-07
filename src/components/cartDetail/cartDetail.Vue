@@ -37,7 +37,7 @@
                 this.listScroll = new BScroll(this.$refs.listWrapper, {
                     click: true
                 });
-            })
+            });
         },
 
         components: {
@@ -48,8 +48,9 @@
             stopProp(e){
                 e.stopPropagation();
             },
+
             setEmpty() {
-                eventBus.$emit('test', '11111');
+                eventBus.$emit('setEmpty', '11111');
             },
 
             closeDimmer() {
@@ -68,17 +69,17 @@
         height: 100%;
         background: rgba(7, 17, 27, 0.6);
         backdrop-filter: blur(10px);
-        z-index: 2;
+        z-index: 150;
         transition: all ease 0.4s;
         &.fade-enter-active, &.fade-leave-active {
             transition: opacity .4s;
-            .cart-detail{
+            .cart-detail {
                 transform: translate(0, 0, 0);
             }
         }
         &.fade-enter, &.fade-leave-to {
             opacity: 0;
-            .cart-detail{
+            .cart-detail {
                 transform: translate(0, 180px);
             }
         }

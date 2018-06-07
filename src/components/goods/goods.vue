@@ -14,7 +14,7 @@
             <div>
                 <div class="goods-item" v-for="item in goods">
                     <div class="title">{{item.name}}</div>
-                    <div class="item-info" v-for="food in item.foods">
+                    <div class="item-info" v-for="food in item.foods" @click.stop="showFoodDetail(food)">
                         <div class="item-image">
                             <img :src="food.image" width="100%" height="100%"/>
                         </div>
@@ -37,7 +37,8 @@
                 </div>
             </div>
         </div>
-        <shopCart :seller="seller" :selected-foods="selectedFoods"></shopCart>
+        <shopCart :seller="seller" :selected-foods="selectedFoods" ref="shopCart"></shopCart>
+        <foodDetail ref="showDetail" :select-food="selectFood" v-if="isShowFoodDetail"></foodDetail>
     </div>
 </template>
 
@@ -45,6 +46,7 @@
     import betterScroll from 'better-scroll'
     import shopCart from 'components/shopcart/shopcart.vue'
     import cartControl from 'components/cartControl/cartControl.vue'
+    import foodDetail from 'components/foodDetail/foodDetail.vue'
     import eventBus from 'common/js/eventBus.vue'
 
     const ERR_NUM = 0;
@@ -52,15 +54,18 @@
         props: ['seller'],
         data () {
             return {
-                goods       : [],
-                scrollHeight: [],
-                scrollY     : 0
+                goods           : [],
+                scrollHeight    : [],
+                scrollY         : 0,
+                selectFood      : {},
+                isShowFoodDetail: false
             }
         },
 
         components: {
             'shopCart'   : shopCart,
             'cartControl': cartControl,
+            'foodDetail' : foodDetail
         },
 
         created () {
@@ -108,15 +113,22 @@
         },
 
         mounted(){
-            eventBus.$on('test', () => {
+            eventBus.$on('setEmpty', () => {
                 this.goods.forEach((good) => {
                     good.foods.forEach((food) => {
                         food.count = 0;
                     })
                 });
+            });
+            eventBus.$on('back', () => {
+                this.isShowFoodDetail = false;
             })
         },
         methods: {
+            showFoodDetail(food){
+                this.selectFood = food;
+                this.isShowFoodDetail = true;
+            },
             getTo(index, event) {
                 if (! event._constructed) {
                     return;
@@ -133,7 +145,6 @@
                 this.goodsScroll = new betterScroll(this.$refs.goodsWrapper, {
                     click    : true,
                     probeType: 3,
-
                 });
                 this.goodsScroll.on('scroll', (pos) => {
                     this.scrollY = Math.abs(Math.round(pos.y));
@@ -149,7 +160,6 @@
                     this.scrollHeight.push(height);
                 }
             }
-
         }
     }
 </script>

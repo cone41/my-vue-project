@@ -1,25 +1,35 @@
 <template>
     <div class="food-control">
         <transition name="fade">
-            <div class="food-decrease" @click="removeFoods()" v-show="food.count>0">
+            <div class="food-decrease" @click.stop="removeFoods($event)" v-show="food.count>0">
                 <i class="inner icon-remove_circle_outline"></i>
             </div>
         </transition>
         <div class="food-count" v-show="food.count>0">{{food.count}}</div>
-        <div class="food-add icon-add_circle" @click="addFoods()"></div>
+        <div class="food-add icon-add_circle" @click.stop="addFoods($event)"></div>
     </div>
 </template>
 <script type="text/ecmascript-6">
+    import eventBus from 'common/js/eventBus.vue'
     export default {
         props  : ['food'],
         data() {
             return {}
         },
         methods: {
-            addFoods() {
+            addFoods(event) {
+//                alert(1111);
+//                if (! event._constructed) {
+//                    return;
+//                }
                 this.food.count ++;
+                eventBus.$emit('ball.add', event.target);
             },
-            removeFoods() {
+
+            removeFoods(event) {
+//                if (! event._constructed) {
+//                    return;
+//                }
                 this.food.count --;
             }
         }
@@ -28,7 +38,6 @@
 <style scoped lang="less">
     .food-control {
         font-size: 0;
-
         .food-decrease {
             display: inline-block;
             opacity: 1;

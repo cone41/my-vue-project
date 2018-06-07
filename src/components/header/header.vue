@@ -244,7 +244,7 @@
             height: 100%;
             overflow: auto;
             background: rgba(7, 17, 27, 0.9);
-            z-index: 100;
+            z-index: 1000;
             backdrop-filter: blur(10px);
             .dimmer-content-wrapper {
                 min-height: 100%;
