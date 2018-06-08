@@ -48,6 +48,7 @@
     import cartControl from 'components/cartControl/cartControl.vue'
     import foodDetail from 'components/foodDetail/foodDetail.vue'
     import eventBus from 'common/js/eventBus.vue'
+    import data from './../../../data.json'
 
     const ERR_NUM = 0;
     export default {
@@ -70,22 +71,27 @@
 
         created () {
             this.imageMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-            this.$http.get('/api/goods').then((data) => {
-                data = data.body;
-                if (data.errno == ERR_NUM) {
-                    this.goods = data.data;
-                    for (let i = 0; i < this.goods.length; i ++) {
-                        let item = this.goods[i].foods;
-                        for (let j = 0; j < item.length; j ++) {
-                            this.$set(item[j], 'count', 0);
-                        }
-                    }
-                    this.$nextTick(() => {
-                        this.initScroll();
-                        this.calculateHeight();
-                    })
-                }
+            this.goods = data.goods;
+            this.$nextTick(() => {
+                this.initScroll();
+                this.calculateHeight();
             })
+            //            this.$http.get('/api/goods').then((data) => {
+            //                data = data.body;
+            //                if (data.errno == ERR_NUM) {
+            //                    this.goods = data.data;
+            //                    for (let i = 0; i < this.goods.length; i ++) {
+            //                        let item = this.goods[i].foods;
+            //                        for (let j = 0; j < item.length; j ++) {
+            //                            this.$set(item[j], 'count', 0);
+            //                        }
+            //                    }
+            //                    this.$nextTick(() => {
+            //                        this.initScroll();
+            //                        this.calculateHeight();
+            //                    })
+            //                }
+            //            })
         },
 
         computed: {
@@ -165,6 +171,7 @@
 </script>
 <style scoped lang="less">
     @import "../../common/less/common";
+
     .goods {
         display: flex;
         position: absolute;
