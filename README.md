@@ -2,10 +2,11 @@
 
 > sell
 
-## Build Setup
-
 ## 预览图
-![Alt text](https://github.com/cone41/my-vue-project/raw/master/Screenshots/sell-app1.png)
+
+<img src='https://github.com/cone41/my-vue-project/raw/master/Screenshots/sell-app1.png' width='250' height='450'/>
+
+## Build Setup
 
 ``` bash
 # install dependencies
