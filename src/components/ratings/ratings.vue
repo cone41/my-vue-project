@@ -70,6 +70,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
+    import data from './../../../data.json'
     import star from 'components/star/star.vue';
     import betterScroll from 'better-scroll'
     import common from 'common/js/common'
@@ -93,20 +94,30 @@
         },
 
         mounted() {
-            this.$http.get('/api/ratings').then((data) => {
-                if (data.data.errno == NUM) {
-                    this.ratings = data.data.data;
-                    this.allRatings = this.ratings;
-                    this.selectRatings = this.ratings;
-                    this.ratings.forEach((item) => {
-                        this.compositeScore += item.score;
-                    });
-                    this.compositeScore = (this.compositeScore / this.ratings.length).toFixed(1);
-                    this.scroll = new betterScroll(this.$refs.ratingsWrapper, {
-                        click:true
-                    })
-                }
+            this.ratings = data.ratings;
+            this.allRatings = this.ratings;
+            this.selectRatings = this.ratings;
+            this.ratings.forEach((item) => {
+                this.compositeScore += item.score;
+            });
+            this.compositeScore = (this.compositeScore / this.ratings.length).toFixed(1);
+            this.scroll = new betterScroll(this.$refs.ratingsWrapper, {
+                click:true
             })
+//            this.$http.get('/api/ratings').then((data) => {
+//                if (data.data.errno == NUM) {
+//                    this.ratings = data.data.data;
+//                    this.allRatings = this.ratings;
+//                    this.selectRatings = this.ratings;
+//                    this.ratings.forEach((item) => {
+//                        this.compositeScore += item.score;
+//                    });
+//                    this.compositeScore = (this.compositeScore / this.ratings.length).toFixed(1);
+//                    this.scroll = new betterScroll(this.$refs.ratingsWrapper, {
+//                        click:true
+//                    })
+//                }
+//            })
         },
 
         computed: {

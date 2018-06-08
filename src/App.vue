@@ -11,6 +11,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
+    import data from './../data.json'
+
 	import header from 'components/header/header.vue'
 	const ERR_NUM = 0;
 	export default {
@@ -20,15 +22,16 @@
 			}
 		},
 		mounted () {
-			this.$http.get('/api/seller').then((response) => {
-				response = response.body;
-				if (response.errno === ERR_NUM) {
-					this.seller = response.data
-                    console.log(this.seller);
-				}
-			}, (response) => {
-				console.log(response)
-			})
+		    console.log(data);
+		    this.seller = data.seller;
+//			this.$http.get('/api/seller').then((response) => {
+//				response = response.body;
+//				if (response.errno === ERR_NUM) {
+//					this.seller = response.data;
+//				}
+//			}, (response) => {
+//				console.log(response)
+//			})
 		},
 		components: {
 			'v-header': header,
