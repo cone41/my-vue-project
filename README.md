@@ -4,6 +4,9 @@
 
 ## Build Setup
 
+## 预览图
+![Alt text](https://github.com/cone41/my-vue-project/raw/master/Screenshots/sell-app1.png)
+
 ``` bash
 # install dependencies
 npm install
