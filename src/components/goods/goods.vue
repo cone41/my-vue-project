@@ -182,6 +182,7 @@
             flex: 0 0 160px;
             width: 160px;
             background: #f3f5f7;
+            overflow: hidden;
             .menu {
                 .menu-item {
                     padding: 0 24px;
