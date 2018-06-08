@@ -165,7 +165,6 @@
 </script>
 <style scoped lang="less">
     @import "../../common/less/common";
-
     .goods {
         display: flex;
         position: absolute;

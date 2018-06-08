@@ -18,7 +18,7 @@
                 <div class="min-price" v-if="totalPrice != 0 && totalPrice<seller.minPrice">
                     还差￥{{seller.minPrice - totalPrice}}起送
                 </div>
-                <div class="clear" v-if="totalPrice>=seller.minPrice">去结算</div>
+                <div class="clear" @click='account()' v-if="totalPrice>=seller.minPrice">去结算</div>
             </div>
         </div>
         <div class="ball-container" v-for="ball in balls">
@@ -96,6 +96,10 @@
         },
 
         methods: {
+            account() {
+                alert('支付成功，支付金额:'+this.totalPrice+'元');
+            },
+
             _drop(el){
                 for (let i = 0; i < this.balls.length; i ++) {
                     let ball = this.balls[i];
