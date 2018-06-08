@@ -2,13 +2,10 @@
 
 > sell
 
-<<<<<<< HEAD
 ## 预览图
 
 <img src='https://github.com/cone41/my-vue-project/raw/master/Screenshots/sell-app1.png' width='250' height='450'/>
 
-=======
->>>>>>> 14f3e71489ad163927b11d9486ece6c0bae6174d
 ## Build Setup
 
 ``` bash
