@@ -71,27 +71,28 @@
 
         created () {
             this.imageMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-            this.goods = data.goods;
-            this.$nextTick(() => {
-                this.initScroll();
-                this.calculateHeight();
-            })
-            //            this.$http.get('/api/goods').then((data) => {
-            //                data = data.body;
-            //                if (data.errno == ERR_NUM) {
-            //                    this.goods = data.data;
-            //                    for (let i = 0; i < this.goods.length; i ++) {
-            //                        let item = this.goods[i].foods;
-            //                        for (let j = 0; j < item.length; j ++) {
-            //                            this.$set(item[j], 'count', 0);
-            //                        }
-            //                    }
-            //                    this.$nextTick(() => {
-            //                        this.initScroll();
-            //                        this.calculateHeight();
-            //                    })
-            //                }
+
+            //            this.$nextTick(() => {
+            //                this.goods = data.goods;
+            //                this.initScroll();
+            //                this.calculateHeight();
             //            })
+            this.$http.get('/api/goods').then((data) => {
+                data = data.body;
+                if (data.errno == ERR_NUM) {
+                    this.goods = data.data;
+                    for (let i = 0; i < this.goods.length; i ++) {
+                        let item = this.goods[i].foods;
+                        for (let j = 0; j < item.length; j ++) {
+                            this.$set(item[j], 'count', 0);
+                        }
+                    }
+                    this.$nextTick(() => {
+                        this.initScroll();
+                        this.calculateHeight();
+                    })
+                }
+            })
         },
 
         computed: {
@@ -105,6 +106,7 @@
                 }
                 return 0;
             },
+
             selectedFoods(){
                 let foods = [];
                 this.goods.forEach((good) => {
@@ -126,6 +128,7 @@
                     })
                 });
             });
+
             eventBus.$on('back', () => {
                 this.isShowFoodDetail = false;
             })
@@ -135,6 +138,7 @@
                 this.selectFood = food;
                 this.isShowFoodDetail = true;
             },
+
             getTo(index, event) {
                 if (! event._constructed) {
                     return;

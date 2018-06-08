@@ -22,16 +22,16 @@
             }
         },
         mounted () {
-            console.log(data);
-            this.seller = data.seller;
-            //			this.$http.get('/api/seller').then((response) => {
-            //				response = response.body;
-            //				if (response.errno === ERR_NUM) {
-            //					this.seller = response.data;
-            //				}
-            //			}, (response) => {
-            //				console.log(response)
-            //			})
+            //            console.log(data);
+            //            this.seller = data.seller;
+            this.$http.get('/api/seller').then((response) => {
+                response = response.body;
+                if (response.errno === ERR_NUM) {
+                    this.seller = response.data;
+                }
+            }, (response) => {
+                console.log(response)
+            })
         },
         components: {
             'v-header': header,
