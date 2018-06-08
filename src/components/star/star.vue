@@ -71,7 +71,7 @@
             display: inline-block;
             margin-right: 12px;
             &:last-child {
-                margin-right: 0px;
+                margin-right: 0;
             }
             &.on {
                 background: url("star36_on@2x.png") no-repeat;
@@ -94,7 +94,7 @@
             display: inline-block;
             margin-right: 6px;
             &:last-child {
-                margin-right: 0px;
+                margin-right: 0;
             }
             &.on {
                 background: url("star24_on@2x.png") no-repeat;

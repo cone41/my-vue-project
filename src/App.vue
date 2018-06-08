@@ -32,7 +32,6 @@
 		},
 		components: {
 			'v-header': header,
-//			'shopcart': shopcart
 		},
 		methods: {},
 		name: 'App'

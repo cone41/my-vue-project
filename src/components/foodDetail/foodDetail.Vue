@@ -47,7 +47,7 @@
                 </div>
                 <div class="evaluate">
                     <div class="evaluate-item" v-for="item in selectRatings">
-                        <div class="rateTime">{{item.rateTime}}</div>
+                        <div class="rateTime">{{formateTime(item.rateTime)}}</div>
                         <div class="">
                             <i class="icon-thumb_up" v-if="item.rateType == 0"></i>
                             <i class="icon-thumb_down" v-if="item.rateType == 1"></i>
@@ -70,6 +70,7 @@
     import cartControl from 'components/cartControl/cartControl.vue'
     import betterScroll from 'better-scroll'
     import eventBus from 'common/js/eventBus.vue'
+    import common from 'common/js/common'
     export default {
         props     : ['selectFood'],
         data(){
@@ -86,8 +87,7 @@
             cartControl
         },
         computed  : {
-            recommendNumber(){
-                let number = 0;
+            recommendNumber() {
                 this.selectFood.ratings.forEach((item) => {
                     if (item.rateType == 0) {
                         this.recommendRatings.push(item)
@@ -95,8 +95,7 @@
                 });
                 return this.recommendRatings.length;
             },
-            badNumber(){
-                let number = 0;
+            badNumber() {
                 this.selectFood.ratings.forEach((item) => {
                     if (item.rateType == 1) {
                         this.badRatings.push(item)
@@ -115,6 +114,10 @@
             })
         },
         methods   : {
+            formateTime(time) {
+                return common.formateTime(time);
+            },
+
             filterContent() {
                 this.showHasContent = ! this.showHasContent;
                 if (this.showHasContent) {
@@ -127,7 +130,7 @@
             commonFilterFun(){
                 let arr = [];
                 this.selectRatings.forEach((item) => {
-                    if (item.text != ''){
+                    if (item.text != '') {
                         arr.push(item);
                     }
                 });
@@ -143,16 +146,19 @@
                 } else {
                     this.selectRatings = this.recommendRatings;
                 }
-                if (this.showHasContent){
+                if (this.showHasContent) {
                     this.commonFilterFun();
                 }
             },
+
             addToCart(event) {
                 this.selectFood.count ++;
             },
+
             showFoodDetail() {
                 this.isShowFoodDetail = true;
             },
+
             back() {
                 eventBus.$emit('back');
             }
@@ -236,13 +242,7 @@
                 line-height: 48px;
             }
         }
-        .line-box {
-            height: 32px;
-            width: 100%;
-            background: #f3f5f7;
-            border-top: 1px solid rgba(7, 17, 27, 0.1);
-            border-bottom: 1px solid rgba(7, 17, 27, 0.1);
-        }
+
         .desc-wrapper {
             padding: 36px;
             h3 {

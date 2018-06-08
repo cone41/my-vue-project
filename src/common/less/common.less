@@ -1,30 +1,39 @@
 .mixify(@color) {
-  position: relative;
-  &:after {
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    border-top: 1px solid @color;
-    content: '';
-  }
+    position: relative;
+    &:after {
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        border-top: 1px solid @color;
+        content: '';
+    }
 }
+
 .bg-image(@url) {
-  background-image: url(@url);
+    background-image: url(@url);
 }
 
 .clear-fix {
-  display: inline-block;
-  &:after {
-    display: block;
-    height: 0;
-    line-height: 0;
-    content: '-';
-    clear: both;
-    visibility: hidden;
-  }
+    display: inline-block;
+    &:after {
+        display: block;
+        height: 0;
+        line-height: 0;
+        content: '-';
+        clear: both;
+        visibility: hidden;
+    }
+}
+
+.line-box {
+    height: 32px;
+    width: 100%;
+    background: #f3f5f7;
+    border-top: 1px solid rgba(7, 17, 27, 0.1);
+    border-bottom: 1px solid rgba(7, 17, 27, 0.1);
 }
 
 //.decrease {
