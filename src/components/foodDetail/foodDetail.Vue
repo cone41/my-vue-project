@@ -75,12 +75,12 @@
         props     : ['selectFood'],
         data(){
             return {
-                allRatings      : [],
-                badRatings      : [],
-                recommendRatings: [],
-                selectRatings   : [],
-                selectTab       : 'ALL',
-                showHasContent  : false
+                allRatings      : [],           //存所有评价的数组
+                badRatings      : [],           //存吐槽评价的数组
+                recommendRatings: [],           //存推荐评价的数组
+                selectRatings   : [],           //存当前展示的评价的数组
+                selectTab       : 'ALL',        //当前选择评价类型
+                showHasContent  : false         //评价是否有内容
             }
         },
         components: {

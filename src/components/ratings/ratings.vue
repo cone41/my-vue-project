@@ -73,19 +73,19 @@
     import data from './../../../data.json'
     import star from 'components/star/star.vue';
     import betterScroll from 'better-scroll'
-    import common from 'common/js/common'
+    import common from 'common/js/common'           //公共方法
     const NUM = 0;
     export default{
         data() {
             return {
                 ratings          : [],
                 compositeScore   : 0,
-                allRatings       : [],
-                pleasedRatings   : [],
-                discontentRatings: [],
-                selectRatings    : [],
-                showHasContent   : false,
-                ratingType       : 'ALL'
+                allRatings       : [],          //存所有评价的数组
+                pleasedRatings   : [],          //存放满意的评价
+                discontentRatings: [],          //存放不满意的评价
+                selectRatings    : [],          //展示在当前tab的评价
+                showHasContent   : false,       //评价是否有内容
+                ratingType       : 'ALL'        //评价类型
             }
         },
 
